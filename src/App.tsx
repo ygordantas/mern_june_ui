@@ -27,6 +27,8 @@ const App = () => {
         </ul>
       </section>
       <RegistrationForm numberOfStudentsAlreadyRegistered={students.length} />
+
+      {/* <PersonsList /> */}
     </div>
   );
 };
