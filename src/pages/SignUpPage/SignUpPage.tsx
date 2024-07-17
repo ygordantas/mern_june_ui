@@ -65,7 +65,6 @@ const SignUpPage = (): JSX.Element => {
           </fieldset>
 
           <fieldset>
-            {" "}
             <Row>
               <Col>
                 <Form.Label htmlFor="streetNumber">Street Number</Form.Label>
