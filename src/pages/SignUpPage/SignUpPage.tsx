@@ -1,11 +1,14 @@
 import { useState } from "react";
-import { Col, Container, Form, Row } from "react-bootstrap";
+import { Button, Col, Container, Form, Row } from "react-bootstrap";
+import FormInput from "../../components/FormInput/FormInput";
 import Address from "../../models/Address";
+import classes from "./SignUpPage.module.css";
 
 //TODO: Set min date of birth to be 18 years old
-//TODO: Check if passwords match
 
 const SignUpPage = (): JSX.Element => {
+  const [validated, setValidated] = useState(false);
+
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -21,44 +24,71 @@ const SignUpPage = (): JSX.Element => {
     country: "",
   });
 
+  const onSubmitHandler = (event: React.FormEvent<HTMLFormElement>) => {
+    const form = event.currentTarget;
+    event.preventDefault();
+    event.stopPropagation();
+
+    if (form.checkValidity() === false) {
+      setValidated(true);
+      return;
+    }
+
+    alert(
+      JSON.stringify({
+        firstName,
+        lastName,
+        email,
+        password,
+        confirmPassword,
+        dateOfBirth,
+        address,
+      })
+    );
+  };
+
+  const getMinDate = () => {
+    const date = new Date();
+    date.setFullYear(date.getFullYear() - 18);
+    return date;
+  };
+
   return (
-    <Container>
+    <Container className={classes.container + " center"}>
       <Row>
-        <h3>Sign up</h3>
+        <h3 className={classes.title}>Sign up</h3>
       </Row>
 
       <Row>
-        <Form>
+        <Form noValidate validated={validated} onSubmit={onSubmitHandler}>
           <fieldset>
             <Row>
               <Col>
-                <Form.Label htmlFor="firstName">First Name</Form.Label>
-                <Form.Control
+                <FormInput
                   type="text"
-                  id="firstName"
                   required
+                  title="First Name"
                   value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
                 />
               </Col>
               <Col>
-                <Form.Label htmlFor="lastName">Last Name</Form.Label>
-                <Form.Control
+                <FormInput
                   type="text"
-                  id="lastName"
                   required
+                  title="Last Name"
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
                 />
               </Col>
               <Col>
-                <Form.Label htmlFor="dateOfBirth">Date of Birth</Form.Label>
-                <Form.Control
+                <FormInput
                   type="date"
-                  id="dateOfBirth"
                   required
-                  value={dateOfBirth?.toISOString().split("T")[0] ?? ""}
+                  title="Date of Birth"
+                  value={dateOfBirth}
                   onChange={(e) => setDateOfBirth(new Date(e.target.value))}
+                  min={getMinDate().toISOString().split("T")[0]}
                 />
               </Col>
             </Row>
@@ -67,11 +97,10 @@ const SignUpPage = (): JSX.Element => {
           <fieldset>
             <Row>
               <Col>
-                <Form.Label htmlFor="streetNumber">Street Number</Form.Label>
-                <Form.Control
+                <FormInput
                   type="text"
-                  id="streetNumber"
                   required
+                  title="Street Number"
                   value={address.number}
                   onChange={(e) =>
                     setAddress((prevState) => ({
@@ -82,11 +111,10 @@ const SignUpPage = (): JSX.Element => {
                 />
               </Col>
               <Col>
-                <Form.Label htmlFor="streetName">Street Name</Form.Label>
-                <Form.Control
+                <FormInput
                   type="text"
-                  id="streetName"
                   required
+                  title="Street Name"
                   value={address.street}
                   onChange={(e) =>
                     setAddress((prevState) => ({
@@ -97,11 +125,10 @@ const SignUpPage = (): JSX.Element => {
                 />
               </Col>
               <Col>
-                <Form.Label htmlFor="city">City</Form.Label>
-                <Form.Control
+                <FormInput
                   type="text"
-                  id="city"
                   required
+                  title="City"
                   value={address.city}
                   onChange={(e) =>
                     setAddress((prevState) => ({
@@ -114,11 +141,10 @@ const SignUpPage = (): JSX.Element => {
             </Row>
             <Row>
               <Col>
-                <Form.Label htmlFor="state">State/Province</Form.Label>
-                <Form.Control
+                <FormInput
                   type="text"
-                  id="state"
                   required
+                  title="State/Province"
                   value={address.state}
                   onChange={(e) =>
                     setAddress((prevState) => ({
@@ -129,11 +155,10 @@ const SignUpPage = (): JSX.Element => {
                 />
               </Col>
               <Col>
-                <Form.Label htmlFor="zip">Zip Code</Form.Label>
-                <Form.Control
+                <FormInput
                   type="text"
-                  id="zip"
                   required
+                  title="Zip Code"
                   value={address.zip}
                   onChange={(e) =>
                     setAddress((prevState) => ({
@@ -144,11 +169,10 @@ const SignUpPage = (): JSX.Element => {
                 />
               </Col>
               <Col>
-                <Form.Label htmlFor="country">Country</Form.Label>
-                <Form.Control
+                <FormInput
                   type="text"
-                  id="country"
                   required
+                  title="Country"
                   value={address.country}
                   onChange={(e) =>
                     setAddress((prevState) => ({
@@ -164,39 +188,48 @@ const SignUpPage = (): JSX.Element => {
           <fieldset>
             <Row>
               <Col>
-                <Form.Label htmlFor="email">Email</Form.Label>
-                <Form.Control
+                <FormInput
                   type="email"
-                  id="email"
                   required
+                  title="Email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </Col>
               <Col>
-                <Form.Label htmlFor="password">Password</Form.Label>
-                <Form.Control
+                <FormInput
                   type="password"
-                  id="password"
                   required
+                  title="Password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </Col>
               <Col>
-                <Form.Label htmlFor="confirmPassword">
-                  Repeat Password
-                </Form.Label>
-                <Form.Control
+                <FormInput
                   type="password"
-                  id="confirmPassword"
                   required
+                  title="Repeat Password"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                 />
               </Col>
-            </Row>{" "}
+            </Row>
+            {password !== confirmPassword && (
+              <Row className={classes.error_message}>
+                Passwords do not match
+              </Row>
+            )}
           </fieldset>
+          <Row>
+            <Button
+              disabled={password !== confirmPassword || !email}
+              className={classes.submit_btn}
+              type="submit"
+            >
+              Sign Up
+            </Button>
+          </Row>
         </Form>
       </Row>
     </Container>
