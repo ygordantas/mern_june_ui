@@ -1,16 +1,21 @@
+import { useState } from "react";
 import SignUpPage from "./pages/SignUpPage/SignUpPage";
 
-//TODO: On Mode Change mode clicked, change the mode across the app
-
 const App = () => {
-  // return (
-  //   <div>
-  //     <button onClick={() => {}}>Change mode</button>
-  //     <SignUpPage />
-  //   </div>
-  // );
+  const [mode, setMode] = useState("");
 
-  return <SignUpPage />;
+  return (
+    <div data-theme={mode}>
+      <button
+        onClick={() => {
+          setMode(mode === "dark" ? "" : "dark");
+        }}
+      >
+        Change mode
+      </button>
+      <SignUpPage />
+    </div>
+  );
 };
 
 export default App;
