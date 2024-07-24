@@ -1,0 +1,23 @@
+.container {
+  border: 1px solid var(--secondary-color-dark);
+  padding: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border-radius: 16px;
+  gap: 20px;
+}
+
+.container a {
+  border: 1px solid var(--primary-color-light);
+  background-color: var(--primary-color-dark);
+  text-decoration: none;
+  border-radius: 16px;
+  padding: 10px;
+}
+
+.container a:hover {
+  background-color: var(--secondary-color-light);
+  border-color: var(--secondary-color-dark);
+}

@@ -1,10 +1,12 @@
 import { useMemo, useState } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import FormInput from "../../components/FormInput/FormInput";
 import Address from "../../models/Address";
 import classes from "./SignUpPage.module.css";
 
 const SignUpPage = (): JSX.Element => {
+  const navigate = useNavigate();
   const [validated, setValidated] = useState(false);
 
   const [firstName, setFirstName] = useState("");
@@ -38,17 +40,17 @@ const SignUpPage = (): JSX.Element => {
       return;
     }
 
-    alert(
-      JSON.stringify({
-        firstName,
-        lastName,
-        email,
-        password,
-        confirmPassword,
-        dateOfBirth,
-        address,
-      })
-    );
+    navigate("/", {
+      state: {
+        user: {
+          firstName,
+          lastName,
+          email,
+          dateOfBirth,
+          address,
+        },
+      },
+    });
   };
 
   return (
@@ -213,7 +215,7 @@ const SignUpPage = (): JSX.Element => {
                 />
               </Col>
             </Row>
-            {password !== confirmPassword && (
+            {password && confirmPassword && password !== confirmPassword && (
               <div className={classes.error_message + " error_text"}>
                 Passwords do not match
               </div>
