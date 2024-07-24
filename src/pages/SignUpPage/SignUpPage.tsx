@@ -1,10 +1,8 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import FormInput from "../../components/FormInput/FormInput";
 import Address from "../../models/Address";
 import classes from "./SignUpPage.module.css";
-
-//TODO: Set min date of birth to be 18 years old
 
 const SignUpPage = (): JSX.Element => {
   const [validated, setValidated] = useState(false);
@@ -14,7 +12,7 @@ const SignUpPage = (): JSX.Element => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [dateOfBirth, setDateOfBirth] = useState<Date | undefined>();
+  const [dateOfBirth, setDateOfBirth] = useState<Date | null>();
   const [address, setAddress] = useState<Address>({
     street: "",
     number: "",
@@ -23,6 +21,12 @@ const SignUpPage = (): JSX.Element => {
     zip: "",
     country: "",
   });
+
+  const dateOfBirthLimit = useMemo(() => {
+    const date = new Date();
+    date.setFullYear(date.getFullYear() - 18);
+    return date;
+  }, []);
 
   const onSubmitHandler = (event: React.FormEvent<HTMLFormElement>) => {
     const form = event.currentTarget;
@@ -45,12 +49,6 @@ const SignUpPage = (): JSX.Element => {
         address,
       })
     );
-  };
-
-  const getMinDate = () => {
-    const date = new Date();
-    date.setFullYear(date.getFullYear() - 18);
-    return date;
   };
 
   return (
@@ -86,9 +84,9 @@ const SignUpPage = (): JSX.Element => {
                   type="date"
                   required
                   title="Date of Birth"
-                  value={dateOfBirth}
+                  value={dateOfBirth ?? ""}
                   onChange={(e) => setDateOfBirth(new Date(e.target.value))}
-                  max={getMinDate().toISOString().split("T")[0]}
+                  max={dateOfBirthLimit.toISOString().split("T")[0]}
                 />
               </Col>
             </Row>
