@@ -9,6 +9,7 @@ interface FormInputProps {
   placeholder?: string;
   errorMessage?: string;
   min?: string;
+  max?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
 }
@@ -22,6 +23,7 @@ export default function FormInput({
   placeholder,
   errorMessage,
   min,
+  max,
   onChange,
   onBlur = () => {},
 }: FormInputProps): JSX.Element {
@@ -40,6 +42,7 @@ export default function FormInput({
         onBlur={onBlur}
         placeholder={placeholder}
         min={min}
+        max={max}
       />
       <Form.Control.Feedback type="invalid">
         {required && !errorMessage ? "Required field" : errorMessage}

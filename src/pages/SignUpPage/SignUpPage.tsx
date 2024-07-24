@@ -88,7 +88,7 @@ const SignUpPage = (): JSX.Element => {
                   title="Date of Birth"
                   value={dateOfBirth}
                   onChange={(e) => setDateOfBirth(new Date(e.target.value))}
-                  min={getMinDate().toISOString().split("T")[0]}
+                  max={getMinDate().toISOString().split("T")[0]}
                 />
               </Col>
             </Row>
@@ -216,12 +216,12 @@ const SignUpPage = (): JSX.Element => {
               </Col>
             </Row>
             {password !== confirmPassword && (
-              <Row className={classes.error_message}>
+              <div className={classes.error_message + " error_text"}>
                 Passwords do not match
-              </Row>
+              </div>
             )}
           </fieldset>
-          <Row>
+          <div className={classes.submit_btn_container}>
             <Button
               disabled={password !== confirmPassword || !email}
               className={classes.submit_btn}
@@ -229,7 +229,7 @@ const SignUpPage = (): JSX.Element => {
             >
               Sign Up
             </Button>
-          </Row>
+          </div>
         </Form>
       </Row>
     </Container>

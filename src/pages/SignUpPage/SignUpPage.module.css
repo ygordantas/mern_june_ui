@@ -12,18 +12,20 @@
   margin-bottom: 20px;
 }
 
-.submit_btn {
-  width: 30%;
-  margin: 30px auto 10px auto;
-}
-
-.error_message {
-  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
-    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
-  color: red;
-  font-weight: bold;
+.submit_btn_container {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 10px;
+  margin: 30px auto;
+}
+
+.submit_btn {
+  width: 30%;
+}
+
+.error_message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
 }

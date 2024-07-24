@@ -1,13 +1,23 @@
 @import url("https://fonts.googleapis.com/css2?family=Kalnia+Glaze:wdth,wght@100..125,100..700&display=swap");
 
+:root {
+  --primary-color-light: #f4eeff;
+  --primary-color-dark: #dcd6f7;
+  --secondary-color-light: #a6b1e1;
+  --secondary-color-dark: #424874;
+}
+
+[data-theme="dark"] {
+  --primary-color-light: #233142;
+  --primary-color-dark: #455d7a;
+  --secondary-color-light: #f95959;
+  --secondary-color-dark: #e3e3e3;
+}
+
 * {
   box-sizing: border-box;
   font-family: "Kalnia Glaze", serif;
   font-optical-sizing: auto;
-}
-
-body {
-  background-color: var(--secondary-color-light);
 }
 
 .center {
@@ -38,7 +48,10 @@ body {
   border-color: var(--secondary-color-light);
 }
 
-.invalid-feedback {
+.invalid-feedback,
+.error_text {
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  color: red;
+  font-weight: bold;
 }
