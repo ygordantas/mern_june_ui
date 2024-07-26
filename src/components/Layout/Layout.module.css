@@ -1,0 +1,28 @@
+.page_container {
+  min-height: 100vh;
+  background-color: var(--primary-color-light);
+}
+
+.navbar {
+  background-color: var(--primary-color-dark);
+}
+
+.nav_item_container a {
+  padding: 5px;
+  text-decoration: none;
+  font-size: 18px;
+  color: var(--secondary-color-light);
+}
+
+.nav_item_container a:hover {
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  color: var(--secondary-color-dark);
+}
+
+.nav_item_container a svg {
+  margin-right: 5px;
+  color: var(--secondary-color-dark);
+}
+.content_container {
+  padding: 10px;
+}

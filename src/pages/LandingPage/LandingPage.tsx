@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Navigate, useLocation } from "react-router-dom";
+import Layout from "../../components/Layout/Layout";
 import User from "../../models/User";
 
 export default function LandingPage() {
@@ -7,7 +8,9 @@ export default function LandingPage() {
   const [user] = useState<User>(state?.user);
 
   return user ? (
-    <div> Landing page is under construction</div>
+    <Layout>
+      <div>Hello {user.email.split("@")[0]}</div>
+    </Layout>
   ) : (
     <Navigate to="/register" />
   );
