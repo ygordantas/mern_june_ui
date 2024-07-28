@@ -5,10 +5,11 @@
 
 .navbar {
   background-color: var(--primary-color-dark);
+  padding: 15px 30px !important;
 }
 
 .nav_item_container a {
-  padding: 5px;
+  padding: 0px 15px;
   text-decoration: none;
   font-size: 18px;
   color: var(--secondary-color-light);
@@ -25,4 +26,8 @@
 }
 .content_container {
   padding: 10px;
+}
+
+[data-theme="dark"] .toggle span{
+  filter: brightness(0) invert(1);
 }
