@@ -2,17 +2,13 @@ import { useState } from "react";
 import { Container, Nav, Navbar } from "react-bootstrap";
 import { CiShoppingCart } from "react-icons/ci";
 import { RiAuctionFill } from "react-icons/ri";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, Outlet } from "react-router-dom";
 
 import { IoLogOut, IoSettings } from "react-icons/io5";
 import { TbMessages } from "react-icons/tb";
 import classes from "./Layout.module.css";
 
-interface LayoutProps {
-  children: React.ReactNode;
-}
-
-export default function Layout({ children }: LayoutProps) {
+export default function Layout() {
   const [theme] = useState(
     window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : ""
   );
@@ -51,7 +47,7 @@ export default function Layout({ children }: LayoutProps) {
               <NavLink to="/settings">
                 <IoSettings /> Settings
               </NavLink>
-              <Link to="login">
+              <Link to="/account/login">
                 <IoLogOut /> Logout
               </Link>
             </Nav>
@@ -59,7 +55,7 @@ export default function Layout({ children }: LayoutProps) {
         </Container>
       </Navbar>
       <Container fluid>
-        {children}
+        <Outlet />
       </Container>
     </div>
   );

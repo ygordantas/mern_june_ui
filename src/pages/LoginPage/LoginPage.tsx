@@ -59,7 +59,7 @@ export default function LoginPage() {
 
   const footer = (
     <p>
-      Don't have an account? <Link to="/register">Sign up here!</Link>
+      Don't have an account? <Link to="/account/register">Sign up here!</Link>
     </p>
   );
 
