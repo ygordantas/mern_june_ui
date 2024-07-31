@@ -15,7 +15,7 @@ export default function Layout() {
   return (
     <div data-theme={theme} className={classes.page_container}>
       <Navbar expand="lg" className={classes.navbar}>
-        <Container>
+        <Container fluid>
           <Link to="/">
             <img
               src="/src/assets/logo.png"
@@ -26,7 +26,7 @@ export default function Layout() {
             />
           </Link>
 
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Toggle className={classes.toggle} aria-controls="basic-navbar-nav" />
 
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className={classes.nav_item_container + " me-auto"}>
