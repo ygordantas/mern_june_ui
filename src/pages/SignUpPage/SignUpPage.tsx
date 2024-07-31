@@ -230,7 +230,7 @@ const SignUpPage = (): JSX.Element => {
 
   const footer = (
     <p>
-      Already have an account? <Link to="/login">Log in here!</Link>
+      Already have an account? <Link to="/account/login">Log in here!</Link>
     </p>
   );
 
