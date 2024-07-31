@@ -45,6 +45,20 @@
   border-color: var(--secondary-color-light);
 }
 
+[data-theme=""] .btn-secondary {
+  color: #000;
+}
+
+.btn-secondary {
+  background-color: var(--primary-color-light);
+  border: 1px solid var(--primary-color-dark);
+}
+
+.btn-secondary:hover {
+  background-color: var(--primary-color-dark);
+  border-color: var(--primary-color-light);
+}
+
 .invalid-feedback,
 .error_text {
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",

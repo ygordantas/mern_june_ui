@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Container, Nav, Navbar } from "react-bootstrap";
-import { CiShoppingCart } from "react-icons/ci";
 import { IoLogOut, IoSettings } from "react-icons/io5";
 import { RiAuctionFill } from "react-icons/ri";
 import { TbMessages } from "react-icons/tb";
@@ -26,14 +25,13 @@ export default function Layout() {
             />
           </Link>
 
-          <Navbar.Toggle className={classes.toggle} aria-controls="basic-navbar-nav" />
+          <Navbar.Toggle
+            className={classes.toggle}
+            aria-controls="basic-navbar-nav"
+          />
 
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className={classes.nav_item_container + " me-auto"}>
-              <NavLink to="/shop">
-                <CiShoppingCart />
-                Shop
-              </NavLink>
               <NavLink to="/posts">
                 <RiAuctionFill />
                 My Posts

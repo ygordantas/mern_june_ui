@@ -1,0 +1,19 @@
+.card {
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  background-color: var(--secondary-color-light) !important;
+}
+.card img {
+  height: 100px;
+  width: 130px;
+  overflow: hidden;
+}
+
+.card_body,
+.footer {
+  width: 100%;
+  text-align: center;
+}

@@ -1,0 +1,9 @@
+.title {
+  text-align: center;
+  color: var(--secondary-color-light);
+  font-weight: bold;
+}
+
+[data-theme=""] .title{
+  color: #000;
+}
