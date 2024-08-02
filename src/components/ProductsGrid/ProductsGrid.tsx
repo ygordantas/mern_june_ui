@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { Card, Col, Container, Row } from "react-bootstrap";
+import { Card, Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Product from "../../models/Product";
 import classes from "./ProductsGrid.module.css";
@@ -38,7 +38,12 @@ export default function ProductsGrid({
                   <Card.Text>
                     <strong>${product.price}</strong>
                   </Card.Text>
-                  <Link className="btn btn-secondary" to={`/products/${product.id}`}>Check it out!</Link>
+                  <Link
+                    className="btn btn-secondary"
+                    to={`/products/${product.id}`}
+                  >
+                    Check it out!
+                  </Link>
                 </Card.Body>
                 <Card.Footer className={classes.footer + " text-muted"}>
                   Posted @ {product.postedAt.toDateString()}
@@ -57,7 +62,7 @@ export default function ProductsGrid({
   }, [totalRowsCount, products, itemsPerRow]);
 
   return totalRowsCount ? (
-    <Container>{createGrid()}</Container>
+    createGrid()
   ) : (
     <Row>
       <p>No products found</p>
