@@ -1,6 +1,7 @@
 .page_container {
   min-height: 100vh;
   background-color: var(--primary-color-light);
+  overflow: hidden;
 }
 
 .navbar {
