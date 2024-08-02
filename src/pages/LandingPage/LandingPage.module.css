@@ -7,16 +7,3 @@
 [data-theme=""] .title {
   color: #000;
 }
-
-.pagination {
-  list-style-type: none;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  gap: 5px;
-}
-
-.active {
-  border-width: 3px !important;
-}
