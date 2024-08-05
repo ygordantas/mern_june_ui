@@ -1,0 +1,19 @@
+.preview_list {
+  list-style: none;
+}
+
+.preview_list li {
+  display: inline-block;
+  margin: 10px;
+}
+
+.preview_list li img {
+  height: 300px;
+}
+
+.preview_list li button {
+  position: relative;
+  top: -125px;
+  left: -50px;
+  padding: 8px;
+}

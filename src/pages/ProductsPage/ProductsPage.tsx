@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useState } from "react";
-import { Container, Row } from "react-bootstrap";
-import { Navigate, useLocation } from "react-router-dom";
+import { Button, Col, Container, Form, InputGroup, Row } from "react-bootstrap";
+import { Link, Navigate, useLocation } from "react-router-dom";
 import CustomPagination from "../../components/CustomPagination/CustomPagination";
 import ProductsGrid from "../../components/ProductsGrid/ProductsGrid";
 import dummyProducts from "../../dummyData/dummyProducts";
@@ -39,6 +39,33 @@ export default function ProductsPage() {
     <Container>
       <Row className="title mt-5 mb-5">
         <h1>Welcome to the MERN Shop</h1>
+      </Row>
+      <Row>
+        <Col className="mb-3" xs={12} md={4}>
+          <Link
+            className="btn btn-light"
+            style={{ marginLeft: "20px" }}
+            to="/products/new"
+          >
+            Add Product
+          </Link>
+        </Col>
+        <Col className="mb-3" md={{ span: 4, offset: 4 }}>
+          <InputGroup>
+            <Form.Control
+              placeholder="Recipient's username"
+              aria-label="Recipient's username"
+              aria-describedby="basic-addon2"
+            />
+            <Button
+              style={{ marginRight: "20px" }}
+              variant="secondary"
+              id="button-addon2"
+            >
+              Search
+            </Button>
+          </InputGroup>
+        </Col>
       </Row>
       <Container>
         <ProductsGrid products={productsOnPage} />
