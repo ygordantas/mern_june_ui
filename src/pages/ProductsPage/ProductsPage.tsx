@@ -1,9 +1,12 @@
 import { useCallback, useMemo, useState } from "react";
-import { Container, Row } from "react-bootstrap";
+import { Button, Col, Container, Form, InputGroup, Row } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import CustomPagination from "../../components/CustomPagination/CustomPagination";
 import ProductsGrid from "../../components/ProductsGrid/ProductsGrid";
 import dummyProducts from "../../dummyData/dummyProducts";
 import Product from "../../models/Product";
+import { FaSearch } from "react-icons/fa";
+import classes from "./ProductsPage.module.css";
 
 const PRODUCTS_PER_PAGE = 3;
 
@@ -34,6 +37,28 @@ export default function ProductsPage() {
     <Container>
       <Row className="title mt-5 mb-5">
         <h1>Welcome to the MERN Shop</h1>
+      </Row>
+      <Row>
+        <Col className="mb-3">
+          <Link
+            className={classes.add_product + " btn btn-light"}
+            to="/me/products"
+          >
+            Add a Product
+          </Link>
+        </Col>
+        <Col className="mb-3">
+          <InputGroup>
+            <Form.Control
+              placeholder="Search"
+              aria-label="Search Products"
+              aria-describedby="Search Products"
+            />
+            <Button className={classes.search_btn} variant="light">
+              <FaSearch />
+            </Button>
+          </InputGroup>
+        </Col>
       </Row>
       <Container>
         <ProductsGrid products={productsOnPage} />

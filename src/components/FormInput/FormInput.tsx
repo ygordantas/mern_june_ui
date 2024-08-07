@@ -2,7 +2,7 @@ import { Form } from "react-bootstrap";
 
 interface FormInputProps {
   title: string;
-  type: "text" | "email" | "password" | "date";
+  type: "text" | "email" | "password" | "date" | "textarea";
   required?: boolean;
   id?: string;
   value?: string | number | Date;
@@ -43,6 +43,7 @@ export default function FormInput({
         placeholder={placeholder}
         min={min}
         max={max}
+        as={type === "textarea" ? "textarea" : undefined}
       />
       <Form.Control.Feedback type="invalid">
         {required && !errorMessage ? "Required field" : errorMessage}

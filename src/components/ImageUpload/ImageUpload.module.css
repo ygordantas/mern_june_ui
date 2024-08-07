@@ -1,0 +1,37 @@
+.preview_list {
+  list-style: none;
+  padding: 0px;
+  text-align: center;
+}
+
+.preview_list li {
+  display: inline-block;
+  margin: 10px;
+}
+
+.preview_list li img {
+  height: 300px;
+}
+
+.preview_list li button {
+  position: relative;
+  top: -135px;
+  left: -37px;
+}
+
+@media screen and (max-width: 770px) {
+  .preview_list li {
+    display: block;
+    margin: 10px 0px;
+  }
+
+  .preview_list li img {
+    height: 200px;
+  }
+
+  .preview_list li button {
+    position: relative;
+    top: -85px;
+    left: -37px;
+  }
+}
