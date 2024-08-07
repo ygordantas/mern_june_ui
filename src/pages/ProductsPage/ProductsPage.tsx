@@ -1,18 +1,13 @@
 import { useCallback, useMemo, useState } from "react";
 import { Container, Row } from "react-bootstrap";
-import { Navigate, useLocation } from "react-router-dom";
 import CustomPagination from "../../components/CustomPagination/CustomPagination";
 import ProductsGrid from "../../components/ProductsGrid/ProductsGrid";
 import dummyProducts from "../../dummyData/dummyProducts";
 import Product from "../../models/Product";
-import User from "../../models/User";
 
 const PRODUCTS_PER_PAGE = 3;
 
 export default function ProductsPage() {
-  const { state } = useLocation();
-
-  const [user] = useState<User>(state?.user);
   const [products] = useState<Product[]>([...dummyProducts]);
   const [productsOnPage, setProductsOnPage] = useState<Product[]>(
     dummyProducts.slice(0, PRODUCTS_PER_PAGE)
@@ -35,7 +30,7 @@ export default function ProductsPage() {
     [products]
   );
 
-  return user ? (
+  return (
     <Container>
       <Row className="title mt-5 mb-5">
         <h1>Welcome to the MERN Shop</h1>
@@ -49,7 +44,5 @@ export default function ProductsPage() {
         />
       </Container>
     </Container>
-  ) : (
-    <Navigate to="/account/register" />
   );
 }

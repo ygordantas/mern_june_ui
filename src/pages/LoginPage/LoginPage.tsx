@@ -1,12 +1,15 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import CustomCard from "../../components/CustomCard/CustomCard";
 import FormInput from "../../components/FormInput/FormInput";
+import { UserContext } from "../../contexts/userContext";
 import classes from "./LoginPage.module.css";
 
 export default function LoginPage() {
   const navigate = useNavigate();
+  const { setUser } = useContext(UserContext);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [validated, setValidated] = useState(false);
@@ -21,13 +24,22 @@ export default function LoginPage() {
       return;
     }
 
-    navigate("/", {
-      state: {
-        user: {
-          email,
-        },
+    setUser({
+      email,
+      firstName: "",
+      lastName: "",
+      dateOfBirth: new Date(),
+      address: {
+        street: "",
+        city: "",
+        state: "",
+        zip: "",
+        number: "",
+        country: "",
       },
     });
+
+    navigate("/");
   };
 
   const form = (

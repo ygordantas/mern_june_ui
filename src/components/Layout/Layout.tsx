@@ -1,17 +1,26 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Container, Nav, Navbar } from "react-bootstrap";
 import { IoLogOut, IoSettings } from "react-icons/io5";
 import { RiAuctionFill } from "react-icons/ri";
 import { TbMessages } from "react-icons/tb";
-import { Link, NavLink, Outlet } from "react-router-dom";
+import { Link, Navigate, NavLink, Outlet, useNavigate } from "react-router-dom";
+import { UserContext } from "../../contexts/userContext";
 import classes from "./Layout.module.css";
 
 export default function Layout() {
   const [theme] = useState(
     window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : ""
   );
+  const navigate = useNavigate();
 
-  return (
+  const { user, setUser } = useContext(UserContext);
+
+  const onLogoutClickHandler = () => {
+    setUser(undefined);
+    navigate("/account/login");
+  };
+
+  return user ? (
     <div data-theme={theme} className={classes.page_container}>
       <Navbar expand="lg" className={classes.navbar}>
         <Container fluid>
@@ -44,9 +53,9 @@ export default function Layout() {
               <NavLink to="/settings">
                 <IoSettings /> Settings
               </NavLink>
-              <Link to="/account/login">
+              <button onClick={onLogoutClickHandler}>
                 <IoLogOut /> Logout
-              </Link>
+              </button>
             </Nav>
           </Navbar.Collapse>
         </Container>
@@ -55,5 +64,7 @@ export default function Layout() {
         <Outlet />
       </Container>
     </div>
+  ) : (
+    <Navigate to="/account/login" />
   );
 }

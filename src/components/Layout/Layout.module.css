@@ -8,19 +8,27 @@
   background-color: var(--primary-color-dark);
 }
 
-.nav_item_container a {
+.nav_item_container button {
+  background-color: transparent;
+  border: none;
+}
+
+.nav_item_container a,
+.nav_item_container button {
   padding: 0px 15px;
   text-decoration: none;
   font-size: 18px;
   color: var(--secondary-color-light);
 }
 
-.nav_item_container a:hover {
+.nav_item_container a:hover,
+.nav_item_container button:hover {
   box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
   color: var(--secondary-color-dark);
 }
 
-.nav_item_container a svg {
+.nav_item_container a svg,
+.nav_item_container button svg {
   margin-right: 5px;
   color: var(--secondary-color-dark);
 }
@@ -28,6 +36,6 @@
   padding: 10px;
 }
 
-[data-theme="dark"] .toggle span{
+[data-theme="dark"] .toggle span {
   filter: brightness(0) invert(1);
 }
