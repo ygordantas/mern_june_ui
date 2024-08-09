@@ -7,8 +7,9 @@ import { UserContext } from "../../contexts/userContext";
 import classes from "./LoginPage.module.css";
 
 export default function LoginPage() {
-  const navigate = useNavigate();
   const { setUser } = useContext(UserContext);
+
+  const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

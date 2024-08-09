@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { Container, Nav, Navbar } from "react-bootstrap";
 import { IoLogOut, IoSettings } from "react-icons/io5";
 import { RiAuctionFill } from "react-icons/ri";
@@ -8,11 +8,7 @@ import { UserContext } from "../../contexts/userContext";
 import classes from "./Layout.module.css";
 
 export default function Layout() {
-  const [theme] = useState(
-    window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : ""
-  );
   const navigate = useNavigate();
-
   const { user, setUser } = useContext(UserContext);
 
   const onLogoutClickHandler = () => {
@@ -21,7 +17,7 @@ export default function Layout() {
   };
 
   return user ? (
-    <div data-theme={theme} className={classes.page_container}>
+    <div className={classes.page_container}>
       <Navbar expand="lg" className={classes.navbar}>
         <Container fluid>
           <Link to="/">

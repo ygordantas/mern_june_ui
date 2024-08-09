@@ -17,6 +17,10 @@
   font-family: "Zain", sans-serif;
 }
 
+body {
+  background-color: var(--secondary-color-light);
+}
+
 .center {
   position: absolute;
   top: 50%;
