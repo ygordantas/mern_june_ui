@@ -1,17 +1,20 @@
 import { useCallback, useMemo, useState } from "react";
 import { Button, Col, Container, Form, InputGroup, Row } from "react-bootstrap";
+import { FaSearch } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import CustomPagination from "../../components/CustomPagination/CustomPagination";
+import PageTitle from "../../components/PageTitle/PageTitle";
 import ProductsGrid from "../../components/ProductsGrid/ProductsGrid";
 import dummyProducts from "../../dummyData/dummyProducts";
 import Product from "../../models/Product";
-import { FaSearch } from "react-icons/fa";
 import classes from "./ProductsPage.module.css";
 
 const PRODUCTS_PER_PAGE = 3;
 
 export default function ProductsPage() {
-  const [products] = useState<Product[]>([...dummyProducts]);
+  const [products] = useState<Product[]>(
+    [...dummyProducts].sort((a, b) => b.postedAt - a.postedAt)
+  );
   const [productsOnPage, setProductsOnPage] = useState<Product[]>(
     dummyProducts.slice(0, PRODUCTS_PER_PAGE)
   );
@@ -35,14 +38,12 @@ export default function ProductsPage() {
 
   return (
     <Container>
-      <Row className="title mt-5 mb-5">
-        <h1>Welcome to the MERN Shop</h1>
-      </Row>
+      <PageTitle title="Welcome to the MERN Shop" />
       <Row>
         <Col className="mb-3">
           <Link
             className={classes.add_product + " btn btn-light"}
-            to="/me/products"
+            to="/addProduct"
           >
             Add a Product
           </Link>

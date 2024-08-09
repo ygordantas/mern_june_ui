@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Carousel, Container, Image, Row } from "react-bootstrap";
 import { useParams } from "react-router-dom";
+import PageTitle from "../../components/PageTitle/PageTitle";
 import dummyProducts from "../../dummyData/dummyProducts";
 import Product from "../../models/Product";
 import classes from "./ProductDetailsPage.module.css";
@@ -14,13 +15,11 @@ export default function ProductDetailsPage() {
 
   return product ? (
     <Container>
-      <Row className="mt-5 mb-5">
-        <h3 className="title">{product.name}</h3>
-      </Row>
+      <PageTitle title={product.name} />
       <Row>
         <Carousel slide={false}>
           {product.images.map((imageUrl, i) => (
-            <Carousel.Item key={i} style={{textAlign: "center"}} >
+            <Carousel.Item key={i} style={{ textAlign: "center" }}>
               <Image className={classes.image} src={imageUrl} rounded />
             </Carousel.Item>
           ))}

@@ -45,7 +45,12 @@ export default function ImageUpload({
     <div>
       <Form.Group controlId="formFileMultiple" className="mb-3">
         <Form.Label>Select Images</Form.Label>
-        <Form.Control onChange={onChangeHandler} type="file" multiple />
+        <Form.Control
+          onChange={onChangeHandler}
+          type="file"
+          multiple
+          accept=".jpg,.png,.jpeg"
+        />
       </Form.Group>
 
       <ul className={classes.preview_list}>

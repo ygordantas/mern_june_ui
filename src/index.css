@@ -81,3 +81,12 @@ body {
 [data-theme=""] .title {
   color: #000;
 }
+
+.form-label {
+  color: var(--secondary-color-dark);
+}
+
+.btn-light,
+.btn-light:hover {
+  border: 1px solid var(--secondary-color-dark);
+}

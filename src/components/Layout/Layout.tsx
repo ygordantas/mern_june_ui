@@ -37,9 +37,9 @@ export default function Layout() {
 
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className={classes.nav_item_container + " me-auto"}>
-              <NavLink to="/posts">
+              <NavLink to="/myProducts">
                 <RiAuctionFill />
-                My Posts
+                My Products
               </NavLink>
               <NavLink to="/messages">
                 <TbMessages /> Messages
