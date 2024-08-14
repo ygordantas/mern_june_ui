@@ -48,6 +48,24 @@
   gap: 10px;
 }
 
+.no_products_message_container {
+  text-align: center;
+  font-size: 20px;
+}
+
+.no_products_message_container p {
+  color: var(--secondary-color-dark);
+}
+
+.add_product_button_container {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.add_product_button {
+  width: 50%;
+}
+
 @media screen and (max-width: 700px) {
   .list li {
     padding-right: 5px;
@@ -58,5 +76,8 @@
 
   .buttons_container button {
     padding: 5px;
+  }
+  .add_product_button {
+    width: 100%;
   }
 }

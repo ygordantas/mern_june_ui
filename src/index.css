@@ -40,13 +40,14 @@ body {
 }
 
 .btn-primary {
-  background-color: var(--secondary-color-light);
-  border: 1px solid var(--secondary-color-dark);
-}
-
-.btn-primary:hover {
   background-color: var(--secondary-color-dark);
   border-color: var(--secondary-color-light);
+  color:  var(--secondary-color-light);
+}
+.btn-primary:hover {
+  background-color: var(--secondary-color-light);
+  border: 1px solid var(--secondary-color-dark);
+  color: var(--secondary-color-dark);
 }
 
 [data-theme=""] .btn-secondary {

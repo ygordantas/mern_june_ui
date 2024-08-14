@@ -42,7 +42,7 @@ export default function ProductsPage() {
       <Row>
         <Col className="mb-3">
           <Link
-            className={classes.add_product + " btn btn-light"}
+            className={classes.add_product + " btn btn-primary"}
             to="/addProduct"
           >
             Add a Product
@@ -55,7 +55,7 @@ export default function ProductsPage() {
               aria-label="Search Products"
               aria-describedby="Search Products"
             />
-            <Button className={classes.search_btn} variant="light">
+            <Button className={classes.search_btn} variant="primary">
               <FaSearch />
             </Button>
           </InputGroup>

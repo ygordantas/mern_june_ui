@@ -5,12 +5,12 @@ import {
 } from "react-router-dom";
 import Layout from "../components/Layout/Layout";
 import LoginPage from "../pages/LoginPage/LoginPage";
+import MyProductsPage from "../pages/MyProductsPage/MyProductsPage";
 import NotFoundPage from "../pages/NotFoundPage/NotFoundPage";
 import ProductDetailsPage from "../pages/ProductDetailsPage/ProductDetailsPage";
+import ProductFormPage from "../pages/ProductFormPage/ProductFormPage";
 import ProductsPage from "../pages/ProductsPage/ProductsPage";
 import SignUpPage from "../pages/SignUpPage/SignUpPage";
-import ProductFormPage from "../pages/ProductFormPage/ProductFormPage";
-import MyProductsPage from "../pages/MyProductsPage/MyProductsPage";
 
 const routes = createRoutesFromElements(
   <>

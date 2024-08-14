@@ -1,15 +1,17 @@
 import { useContext } from "react";
-import { Container, Nav, Navbar } from "react-bootstrap";
-import { IoLogOut, IoSettings } from "react-icons/io5";
+import { Container, Form, Nav, Navbar } from "react-bootstrap";
+import { IoLogOut } from "react-icons/io5";
 import { RiAuctionFill } from "react-icons/ri";
 import { TbMessages } from "react-icons/tb";
 import { Link, Navigate, NavLink, Outlet, useNavigate } from "react-router-dom";
+import { ColorThemeContext } from "../../contexts/colorThemeContext";
 import { UserContext } from "../../contexts/userContext";
 import classes from "./Layout.module.css";
 
 export default function Layout() {
   const navigate = useNavigate();
   const { user, setUser } = useContext(UserContext);
+  const { theme, setTheme } = useContext(ColorThemeContext);
 
   const onLogoutClickHandler = () => {
     setUser(undefined);
@@ -46,9 +48,13 @@ export default function Layout() {
               </NavLink>
             </Nav>
             <Nav className={classes.nav_item_container}>
-              <NavLink to="/settings">
-                <IoSettings /> Settings
-              </NavLink>
+              <Form.Check
+                className={classes.switch}
+                type="switch"
+                label="Dark mode"
+                checked={theme === "dark"}
+                onChange={() => setTheme(theme === "dark" ? "" : "dark")}
+              />
               <button onClick={onLogoutClickHandler}>
                 <IoLogOut /> Logout
               </button>

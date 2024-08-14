@@ -15,13 +15,17 @@
 }
 
 .nav_item_container a,
-.nav_item_container button {
+.nav_item_container button,
+.switch label {
   padding: 0px 15px;
   text-decoration: none;
   font-size: 18px;
   color: var(--secondary-color-light);
 }
 
+.switch label {
+  padding-left: 0px;
+}
 .nav_item_container a:hover,
 .nav_item_container button:hover {
   box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
@@ -39,6 +43,11 @@
 
 [data-theme="dark"] .toggle span {
   filter: brightness(0) invert(1);
+}
+
+.switch input:checked {
+  background-color: var(--secondary-color-dark);
+  border: var(--secondary-color-light);
 }
 
 @media screen and (max-width: 990px) {

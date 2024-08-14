@@ -1,5 +1,6 @@
 import { useContext, useState } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
+import { FaCheck } from "react-icons/fa";
 import { IoMdSend } from "react-icons/io";
 import { useNavigate, useParams } from "react-router-dom";
 import FormInput from "../../components/FormInput/FormInput";
@@ -15,7 +16,9 @@ export default function ProductFormPage() {
   const navigate = useNavigate();
   const { productId } = useParams();
 
-  const product = dummyProducts.find((p) => p.id === productId && p.postedBy === user?.email);
+  const product = dummyProducts.find(
+    (p) => p.id === productId && p.postedBy === user?.email
+  );
 
   const [isValidated, setIsValidated] = useState(false);
   const [name, setName] = useState(product?.name || "");
@@ -51,6 +54,22 @@ export default function ProductFormPage() {
     navigate(`/products/${newProduct.id}`);
   };
 
+  const submitBtnContent = product ? (
+    <>
+      Save
+      <span>
+        <FaCheck />
+      </span>
+    </>
+  ) : (
+    <>
+      Publish
+      <span>
+        <IoMdSend />
+      </span>
+    </>
+  );
+
   return (
     <Container>
       <PageTitle title="Add a Product" />
@@ -59,12 +78,9 @@ export default function ProductFormPage() {
           <Button
             className={classes.submit_btn}
             type="submit"
-            variant="success"
+            variant="primary"
           >
-            Publish
-            <span>
-              <IoMdSend />
-            </span>
+            {submitBtnContent}
           </Button>
         </div>
 
