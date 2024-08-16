@@ -1,23 +1,20 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Button, Col, Container, Form, InputGroup, Row } from "react-bootstrap";
 import { FaSearch } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import CustomPagination from "../../components/CustomPagination/CustomPagination";
 import PageTitle from "../../components/PageTitle/PageTitle";
 import ProductsGrid from "../../components/ProductsGrid/ProductsGrid";
-import dummyProducts from "../../dummyData/dummyProducts";
 import Product from "../../models/Product";
 import classes from "./ProductsPage.module.css";
+import productsService from "../../services/productsService";
 
 const PRODUCTS_PER_PAGE = 3;
 
 export default function ProductsPage() {
-  const [products] = useState<Product[]>(
-    [...dummyProducts].sort((a, b) => b.postedAt - a.postedAt)
-  );
-  const [productsOnPage, setProductsOnPage] = useState<Product[]>(
-    dummyProducts.slice(0, PRODUCTS_PER_PAGE)
-  );
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [productsOnPage, setProductsOnPage] = useState<Product[]>([]);
   const [activePage, setActivePage] = useState<number>(1);
 
   const totalPages = useMemo(
@@ -35,6 +32,21 @@ export default function ProductsPage() {
     },
     [products]
   );
+
+  // TODO: EXPLAIN WHAT WE DID HERE
+  useEffect(() => {
+    const getProducts = async () => {
+      const response = await productsService.getAllProducts();
+      setProducts(response);
+      setIsLoading(false);
+    };
+
+    getProducts();
+  }, []);
+
+  useEffect(()=>{
+    onPageChangeHandler(1)
+  },[onPageChangeHandler, products])
 
   return (
     <Container>
@@ -62,12 +74,18 @@ export default function ProductsPage() {
         </Col>
       </Row>
       <Container>
-        <ProductsGrid products={productsOnPage} />
-        <CustomPagination
-          activePage={activePage}
-          totalPages={totalPages}
-          onPageChange={onPageChangeHandler}
-        />
+        {isLoading ? (
+          <h5>Loading...</h5>
+        ) : (
+          <>
+            <ProductsGrid products={productsOnPage} />
+            <CustomPagination
+              activePage={activePage}
+              totalPages={totalPages}
+              onPageChange={onPageChangeHandler}
+            />
+          </>
+        )}
       </Container>
     </Container>
   );

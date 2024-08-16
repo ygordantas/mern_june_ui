@@ -7,7 +7,6 @@ import FormInput from "../../components/FormInput/FormInput";
 import ImageUpload from "../../components/ImageUpload/ImageUpload";
 import PageTitle from "../../components/PageTitle/PageTitle";
 import { UserContext } from "../../contexts/userContext";
-import dummyProducts from "../../dummyData/dummyProducts";
 import Product from "../../models/Product";
 import classes from "./ProductFormPage.module.css";
 
@@ -16,9 +15,7 @@ export default function ProductFormPage() {
   const navigate = useNavigate();
   const { productId } = useParams();
 
-  const product = dummyProducts.find(
-    (p) => p.id === productId && p.postedBy === user?.email
-  );
+  const product = undefined;
 
   const [isValidated, setIsValidated] = useState(false);
   const [name, setName] = useState(product?.name || "");
@@ -37,7 +34,7 @@ export default function ProductFormPage() {
     }
 
     const newProduct: Product = {
-      id: String(dummyProducts.length + 1),
+      id: "",
       name,
       price: Number(price),
       postedBy: user!.email,
@@ -48,8 +45,6 @@ export default function ProductFormPage() {
           ? images.map((file) => URL.createObjectURL(file))
           : ["https://placehold.co/600x400"],
     };
-
-    dummyProducts.push(newProduct);
 
     navigate(`/products/${newProduct.id}`);
   };

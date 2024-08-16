@@ -2,16 +2,13 @@ import { useState } from "react";
 import { Carousel, Container, Image, Row } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import PageTitle from "../../components/PageTitle/PageTitle";
-import dummyProducts from "../../dummyData/dummyProducts";
 import Product from "../../models/Product";
 import classes from "./ProductDetailsPage.module.css";
 
 export default function ProductDetailsPage() {
   const { productId } = useParams();
 
-  const [product] = useState<Product | undefined>(
-    dummyProducts.find((p) => p.id === productId)
-  );
+  const [product] = useState<Product | undefined>();
 
   return product ? (
     <Container>

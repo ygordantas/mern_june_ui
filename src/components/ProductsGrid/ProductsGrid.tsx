@@ -46,7 +46,7 @@ export default function ProductsGrid({
                   </Link>
                 </Card.Body>
                 <Card.Footer className={classes.footer + " text-muted"}>
-                  Posted @ {product.postedAt.toDateString()}
+                  Posted @ {new Date(product.postedAt).toDateString()}
                 </Card.Footer>
               </Card>
             </Col>
