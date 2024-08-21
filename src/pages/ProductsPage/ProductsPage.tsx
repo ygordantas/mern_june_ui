@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Button, Col, Container, Form, InputGroup, Row } from "react-bootstrap";
 import { FaSearch } from "react-icons/fa";
 import { Link } from "react-router-dom";
@@ -8,49 +8,51 @@ import ProductsGrid from "../../components/ProductsGrid/ProductsGrid";
 import Product from "../../models/Product";
 import classes from "./ProductsPage.module.css";
 import productsService from "../../services/productsService";
+import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
+import ErrorMessageAlert from "../../components/ErrorMessageAlert/ErrorMessageAlert";
 
-const PRODUCTS_PER_PAGE = 3;
+const PRODUCTS_PER_PAGE = 9;
 
 export default function ProductsPage() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [products, setProducts] = useState<Product[]>([]);
-  const [productsOnPage, setProductsOnPage] = useState<Product[]>([]);
   const [activePage, setActivePage] = useState<number>(1);
+  const [hasError, setHasError] = useState<boolean>(false);
 
   const totalPages = useMemo(
     () => Math.ceil(products.length / PRODUCTS_PER_PAGE),
     [products.length]
   );
 
-  const onPageChangeHandler = useCallback(
-    (pageNumber: number) => {
-      const start = (pageNumber - 1) * PRODUCTS_PER_PAGE;
-      const end = start + PRODUCTS_PER_PAGE;
-
-      setProductsOnPage(products.slice(start, end));
-      setActivePage(pageNumber);
-    },
-    [products]
+  const firstProductInPageIndex = useMemo(
+    () => (activePage - 1) * PRODUCTS_PER_PAGE,
+    [activePage]
   );
 
-  // TODO: EXPLAIN WHAT WE DID HERE
+  const lastProductInPageIndex = useMemo(
+    () => firstProductInPageIndex + PRODUCTS_PER_PAGE,
+    [firstProductInPageIndex]
+  );
+
   useEffect(() => {
     const getProducts = async () => {
-      const response = await productsService.getAllProducts();
-      setProducts(response);
+      try {
+        const response = await productsService.getAllProducts();
+        setProducts(response);
+      } catch (error) {
+        setHasError(true);
+      } finally {
+        setIsLoading(false);
+      }
+
       setIsLoading(false);
     };
 
     getProducts();
   }, []);
 
-  useEffect(()=>{
-    onPageChangeHandler(1)
-  },[onPageChangeHandler, products])
-
-  return (
-    <Container>
-      <PageTitle title="Welcome to the MERN Shop" />
+  const pageContent = (
+    <>
       <Row>
         <Col className="mb-3">
           <Link
@@ -75,18 +77,32 @@ export default function ProductsPage() {
       </Row>
       <Container>
         {isLoading ? (
-          <h5>Loading...</h5>
+          <LoadingSpinner />
         ) : (
           <>
-            <ProductsGrid products={productsOnPage} />
-            <CustomPagination
-              activePage={activePage}
-              totalPages={totalPages}
-              onPageChange={onPageChangeHandler}
+            <ProductsGrid
+              products={products.slice(
+                firstProductInPageIndex,
+                lastProductInPageIndex
+              )}
             />
+            {products.length > PRODUCTS_PER_PAGE && (
+              <CustomPagination
+                activePage={activePage}
+                totalPages={totalPages}
+                onPageChange={(pageNumber) => setActivePage(pageNumber)}
+              />
+            )}
           </>
         )}
       </Container>
+    </>
+  );
+
+  return (
+    <Container>
+      <PageTitle title="Welcome to the MERN Shop" />
+      {hasError ? <ErrorMessageAlert /> : pageContent}
     </Container>
   );
 }
