@@ -8,6 +8,10 @@ const productsService = {
     const response = await httpClient.get(BASE_PATH);
     return response.data;
   },
+  getProductById: async (productId: number): Promise<Product> => {
+    const response = await httpClient.get(`${BASE_PATH}/${productId}`);
+    return response.data;
+  },
   createProduct: async (product: Product): Promise<Product> => {
     const response = await httpClient.post(BASE_PATH, product);
     return response.data;

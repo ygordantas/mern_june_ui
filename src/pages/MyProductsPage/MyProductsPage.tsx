@@ -17,15 +17,14 @@ export default function MyProductsPage() {
 
   const [myProducts, setMyProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [hasError, setHasError] = useState<boolean>(true);
+  const [hasError, setHasError] = useState<boolean>(false);
 
   useEffect(() => {
     const getUsersProducts = async () => {
       try {
-        const products = await usersService.getUserProducts(2);
+        const products = await usersService.getUserProducts(user!.id);
         setMyProducts(products);
       } catch (error) {
-        // show an error message to the user
         setHasError(true);
       } finally {
         setIsLoading(false);
@@ -33,14 +32,21 @@ export default function MyProductsPage() {
     };
 
     getUsersProducts();
-  }, []);
+  }, [user]);
 
   const onDeleteProductClickHandler = async (productId: number) => {
-    await productsService.deleteProduct(productId);
+    try {
+      setIsLoading(true);
+      await productsService.deleteProduct(productId);
 
-    setMyProducts((prev) => {
-      return prev.filter((product) => product.id !== productId);
-    });
+      setMyProducts((prev) => {
+        return prev.filter((product) => product.id !== productId);
+      });
+    } catch (error) {
+      setHasError(true);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const pageContent = isLoading ? (
