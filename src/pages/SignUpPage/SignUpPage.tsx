@@ -1,14 +1,24 @@
-import { useMemo, useState } from "react";
+import { useContext, useMemo, useState } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import CustomCard from "../../components/CustomCard/CustomCard";
 import FormInput from "../../components/FormInput/FormInput";
 import Address from "../../models/Address";
 import classes from "./SignUpPage.module.css";
+import usersService from "../../services/usersService";
+import { UserContext } from "../../contexts/userContext";
+import AppError from "../../models/AppError";
+import { AxiosError } from "axios";
+import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
+import ErrorMessageAlert from "../../components/ErrorMessageAlert/ErrorMessageAlert";
 
 const SignUpPage = (): JSX.Element => {
   const navigate = useNavigate();
+  const { setUser } = useContext(UserContext);
+
   const [validated, setValidated] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<AppError | undefined>();
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -31,7 +41,7 @@ const SignUpPage = (): JSX.Element => {
     return date;
   }, []);
 
-  const onSubmitHandler = (event: React.FormEvent<HTMLFormElement>) => {
+  const onSubmitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
     const form = event.currentTarget;
     event.preventDefault();
     event.stopPropagation();
@@ -41,17 +51,25 @@ const SignUpPage = (): JSX.Element => {
       return;
     }
 
-    navigate("/", {
-      state: {
-        user: {
-          firstName,
-          lastName,
-          email,
-          dateOfBirth,
-          address,
-        },
-      },
-    });
+    try {
+      const newUser = await usersService.createUser({
+        id: 0,
+        firstName,
+        lastName,
+        email,
+        dateOfBirth: dateOfBirth!,
+        address,
+        password,
+        repeatPassword: confirmPassword,
+      });
+      setUser(newUser);
+      navigate("/");
+    } catch (error) {
+      const e = error as AxiosError;
+      setError({ message: e.message });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const form = (
@@ -234,7 +252,13 @@ const SignUpPage = (): JSX.Element => {
     </p>
   );
 
-  return <CustomCard title="Sign up" content={form} footer={footer} />;
+  const pageContent = isLoading ? (
+    <LoadingSpinner />
+  ) : (
+    <CustomCard title="Sign up" content={form} footer={footer} />
+  );
+
+  return error ? <ErrorMessageAlert message={error.message} /> : pageContent;
 };
 
 export default SignUpPage;
