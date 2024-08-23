@@ -64,7 +64,8 @@ export default function ProductFormPage() {
       id: 0,
       name,
       price: Number(price),
-      postedBy: user!.email,
+      ownerEmail: user!.email,
+      ownerId: user!.id,
       postedAt: new Date(),
       description,
       images:

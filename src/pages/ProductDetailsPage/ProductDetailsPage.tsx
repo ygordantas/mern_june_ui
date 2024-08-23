@@ -1,17 +1,44 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Carousel, Container, Image, Row } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import PageTitle from "../../components/PageTitle/PageTitle";
 import Product from "../../models/Product";
 import classes from "./ProductDetailsPage.module.css";
+import productsService from "../../services/productsService";
+import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
+import ErrorMessageAlert from "../../components/ErrorMessageAlert/ErrorMessageAlert";
+import AppError from "../../models/AppError";
+import { AxiosError } from "axios";
 
 export default function ProductDetailsPage() {
   const { productId } = useParams();
 
-  const [product] = useState<Product | undefined>();
+  const [product, setProduct] = useState<Product>({} as Product);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [error, setError] = useState<AppError | undefined>();
 
-  return product ? (
-    <Container>
+  useEffect(() => {
+    const getProduct = async () => {
+      try {
+        const product = await productsService.getProductById(Number(productId));
+        setProduct(product);
+      } catch (error) {
+        const e = error as AxiosError;
+        setError({ message: e.message });
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    if (productId) {
+      getProduct();
+    }
+  }, [productId]);
+
+  const pageContent = isLoading ? (
+    <LoadingSpinner />
+  ) : (
+    <>
       <PageTitle title={product.name} />
       <Row>
         <Carousel slide={false}>
@@ -30,18 +57,21 @@ export default function ProductDetailsPage() {
         )}
         <div className={classes.footer + " mt-5 text-center"}>
           <p>
-            Posted @ <strong>{product.postedAt.toDateString()}</strong>
+            Posted @{" "}
+            <strong>{new Date(product.postedAt).toDateString()}</strong>
           </p>
           <p>
             Seller email:{" "}
-            <a href={`mailto:${product.postedBy}`}>{product.postedBy}</a>
+            <a href={`mailto:${product.ownerEmail}`}>{product.ownerEmail}</a>
           </p>
         </div>
       </Row>
+    </>
+  );
+
+  return (
+    <Container>
+      {error ? <ErrorMessageAlert message={error.message} /> : pageContent}
     </Container>
-  ) : (
-    <div>
-      <strong>Product with id of {productId} was not found.</strong>
-    </div>
   );
 }
