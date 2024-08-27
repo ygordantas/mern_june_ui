@@ -12,8 +12,10 @@ const productsService = {
     const response = await httpClient.get(`${BASE_PATH}/${productId}`);
     return response.data;
   },
-  createProduct: async (product: Product): Promise<Product> => {
-    const response = await httpClient.post(BASE_PATH, product);
+  createProduct: async (product: FormData): Promise<Product> => {
+    const response = await httpClient.post(BASE_PATH, product, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
     return response.data;
   },
   deleteProduct: async (productId: number): Promise<void> => {
@@ -29,8 +31,3 @@ const productsService = {
 };
 
 export default productsService;
-
-// Promise chaining
-// function getAllProducts(): Promise<Product[]> {
-//   return httpClient.get(BASE_PATH).then((response) => response.data).catch(err => console.log(err));
-// }

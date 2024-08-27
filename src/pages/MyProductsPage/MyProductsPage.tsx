@@ -70,7 +70,7 @@ export default function MyProductsPage() {
                 <div className={classes.product_info}>
                   <img
                     className={classes.image}
-                    src={product.images[0]}
+                    src={import.meta.env.VITE_API_URL + product.images[0]}
                     alt={`Image for product ${product.name}`}
                   />
                   <div className={classes.product_info_text_container}>

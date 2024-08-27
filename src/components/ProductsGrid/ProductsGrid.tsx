@@ -32,7 +32,10 @@ export default function ProductsGrid({
           {productsInRow.map((product, i) => (
             <Col sm={12} md={4} className="mb-3" key={`${rowNumber}_${i}`}>
               <Card className={classes.card}>
-                <Card.Img variant="top" src={product.images[0]} />
+                <Card.Img
+                  variant="top"
+                  src={import.meta.env.VITE_API_URL + product.images[0]}
+                />
                 <Card.Body className={classes.card_body}>
                   <Card.Title>{product.name}</Card.Title>
                   <Card.Text>
