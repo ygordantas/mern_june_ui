@@ -25,18 +25,22 @@ export default function ProductFormPage() {
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
   const [images, setImages] = useState<File[]>([]);
+  const [imagesUrls, setImagesUrls] = useState<string[]>([]);
 
   useEffect(() => {
     const getProduct = async () => {
       try {
         setIsLoading(true);
 
-        const { name, price, description } =
+        const { name, price, description, images } =
           await productsService.getProductById(Number(productId));
 
         setName(name);
         setPrice(price.toString());
         setDescription(description ?? "");
+        setImagesUrls(
+          images.map((imageUrl) => import.meta.env.VITE_API_URL + imageUrl)
+        );
       } catch (error) {
         setHasError(true);
       } finally {
@@ -142,6 +146,7 @@ export default function ProductFormPage() {
       </Row>
       <Row className="mt-3">
         <ImageUpload
+          imagesUrls={imagesUrls}
           onChange={(files) => setImages(files)}
           onImageDelete={(i) =>
             setImages((prev) => {

@@ -6,13 +6,15 @@ import classes from "./ImageUpload.module.css";
 interface ImageUploadProps {
   onChange: (files: File[]) => void;
   onImageDelete: (index: number) => void;
+  imagesUrls: string[];
 }
 
 export default function ImageUpload({
   onChange,
   onImageDelete,
+  imagesUrls,
 }: ImageUploadProps): JSX.Element {
-  const [previewUrls, setPreviewUrls] = useState<string[]>([]);
+  const [previewUrls, setPreviewUrls] = useState<string[]>(imagesUrls);
   const [isLoading, setIsLoading] = useState(false);
 
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
