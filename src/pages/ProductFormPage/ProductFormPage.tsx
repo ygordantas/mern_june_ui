@@ -7,7 +7,6 @@ import FormInput from "../../components/FormInput/FormInput";
 import ImageUpload from "../../components/ImageUpload/ImageUpload";
 import PageTitle from "../../components/PageTitle/PageTitle";
 import { UserContext } from "../../contexts/userContext";
-import Product from "../../models/Product";
 import classes from "./ProductFormPage.module.css";
 import productsService from "../../services/productsService";
 import ErrorMessageAlert from "../../components/ErrorMessageAlert/ErrorMessageAlert";
@@ -50,7 +49,7 @@ export default function ProductFormPage() {
     }
   }, [productId]);
 
-  const onSubmitHandler = (event: React.FormEvent<HTMLFormElement>) => {
+  const onSubmitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
     const form = event.currentTarget;
     event.preventDefault();
     event.stopPropagation();
@@ -60,21 +59,27 @@ export default function ProductFormPage() {
       return;
     }
 
-    const newProduct: Product = {
-      id: 0,
-      name,
-      price: Number(price),
-      ownerEmail: user!.email,
-      ownerId: user!.id,
-      postedAt: new Date(),
-      description,
-      images:
-        images.length > 0
-          ? images.map((file) => URL.createObjectURL(file))
-          : ["https://placehold.co/600x400"],
-    };
+    const formData = new FormData();
 
-    navigate(`/products/${newProduct.id}`);
+    formData.append("name", name);
+    formData.append("price", price);
+    formData.append("ownerId", user!.id.toString());
+    formData.append("ownerEmail", user!.email);
+    formData.append("description", description);
+
+    if (images.length > 0) {
+      images.forEach((image) => formData.append("images", image));
+    }
+
+    try {
+      setIsLoading(true);
+      const response = await productsService.createProduct(formData);
+      navigate(`/products/${response.id}`);
+    } catch (error) {
+      setHasError(true);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const submitBtnContent = productId ? (
