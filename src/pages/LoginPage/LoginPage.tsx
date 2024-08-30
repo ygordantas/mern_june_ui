@@ -5,17 +5,23 @@ import CustomCard from "../../components/CustomCard/CustomCard";
 import FormInput from "../../components/FormInput/FormInput";
 import { UserContext } from "../../contexts/userContext";
 import classes from "./LoginPage.module.css";
+import usersService from "../../services/usersService";
+import { AxiosError } from "axios";
+import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
+import ErrorMessageAlert from "../../components/ErrorMessageAlert/ErrorMessageAlert";
 
 export default function LoginPage() {
-  const { setUser } = useContext(UserContext);
+  const { setUserId } = useContext(UserContext);
 
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [validated, setValidated] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
-  const onSubmitHandler = (event: React.FormEvent<HTMLFormElement>) => {
+  const onSubmitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
     const form = event.currentTarget;
     event.preventDefault();
     event.stopPropagation();
@@ -25,23 +31,20 @@ export default function LoginPage() {
       return;
     }
 
-    setUser({
-      id: 1,
-      email,
-      firstName: "",
-      lastName: "",
-      dateOfBirth: new Date(),
-      address: {
-        street: "",
-        city: "",
-        state: "",
-        zip: "",
-        number: "",
-        country: "",
-      },
-    });
+    try {
+      setIsLoading(true);
 
-    navigate("/");
+      const userId = await usersService.login(email, password);
+
+      setUserId(userId);
+
+      navigate("/");
+    } catch (error) {
+      const err = error as AxiosError;
+      setErrorMessage(err.response?.data as string);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const form = (
@@ -77,5 +80,14 @@ export default function LoginPage() {
     </p>
   );
 
-  return <CustomCard title="Login" content={form} footer={footer} />;
+  return (
+    <>
+      <CustomCard
+        title="Login"
+        content={isLoading ? <LoadingSpinner /> : form}
+        footer={isLoading ? <></> : footer}
+      />
+      {errorMessage && <ErrorMessageAlert message={errorMessage} />}
+    </>
+  );
 }

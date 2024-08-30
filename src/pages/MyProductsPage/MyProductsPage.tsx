@@ -12,7 +12,7 @@ import usersService from "../../services/usersService";
 import ErrorMessageAlert from "../../components/ErrorMessageAlert/ErrorMessageAlert";
 
 export default function MyProductsPage() {
-  const { user } = useContext(UserContext);
+  const { userId: user } = useContext(UserContext);
   const navigate = useNavigate();
 
   const [myProducts, setMyProducts] = useState<Product[]>([]);

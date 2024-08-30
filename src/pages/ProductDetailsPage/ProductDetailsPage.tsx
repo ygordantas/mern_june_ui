@@ -13,6 +13,8 @@ import { AxiosError } from "axios";
 export default function ProductDetailsPage() {
   const { productId } = useParams();
 
+  console.log(productId)
+
   const [product, setProduct] = useState<Product>({} as Product);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<AppError | undefined>();
@@ -20,11 +22,11 @@ export default function ProductDetailsPage() {
   useEffect(() => {
     const getProduct = async () => {
       try {
-        const product = await productsService.getProductById(Number(productId));
+        const product = await productsService.getProductById(productId!);
         setProduct(product);
       } catch (error) {
         const e = error as AxiosError;
-        setError({ message: e.message });
+        setError({ message: e.response?.data as string });
       } finally {
         setIsLoading(false);
       }
@@ -42,7 +44,7 @@ export default function ProductDetailsPage() {
       <PageTitle title={product.name} />
       <Row>
         <Carousel slide={false}>
-          {product.images.map((imageUrl, i) => (
+          {product.images?.map((imageUrl, i) => (
             <Carousel.Item key={i} style={{ textAlign: "center" }}>
               <Image className={classes.image} src={imageUrl} rounded />
             </Carousel.Item>

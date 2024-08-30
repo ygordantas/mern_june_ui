@@ -1,8 +1,8 @@
 export default interface Product {
-  id: number;
+  id: string;
   name: string;
   price: number;
-  ownerId: number;
+  ownerId: string;
   ownerEmail: string;
   postedAt: Date;
   images: string[];

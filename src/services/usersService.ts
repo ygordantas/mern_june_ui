@@ -1,7 +1,6 @@
 import httpClient from "../httpClient";
 import Product from "../models/Product";
 import CreateUserRequest from "../models/requests/CreateUserRequest";
-import User from "../models/User";
 
 const BASE_PATH = "/users";
 
@@ -10,9 +9,16 @@ const usersService = {
     const response = await httpClient.get(`${BASE_PATH}/${userId}/products`);
     return response.data;
   },
-  createUser: async (user: CreateUserRequest): Promise<User> => {
+  signUp: async (user: CreateUserRequest): Promise<string> => {
     const response = await httpClient.post(BASE_PATH, user);
-    return response.data;
+    return response.data.id;
+  },
+  login: async (email: string, password: string): Promise<string> => {
+    const response = await httpClient.post(`${BASE_PATH}/login`, {
+      email,
+      password,
+    });
+    return response.data.id;
   },
 };
 

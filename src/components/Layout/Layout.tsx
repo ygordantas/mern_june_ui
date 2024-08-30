@@ -10,7 +10,7 @@ import classes from "./Layout.module.css";
 
 export default function Layout() {
   const navigate = useNavigate();
-  const { user, setUser } = useContext(UserContext);
+  const { userId: user, setUserId: setUser } = useContext(UserContext);
   const { theme, setTheme } = useContext(ColorThemeContext);
 
   const onLogoutClickHandler = () => {

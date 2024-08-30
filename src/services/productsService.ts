@@ -8,15 +8,25 @@ const productsService = {
     const response = await httpClient.get(BASE_PATH);
     return response.data;
   },
-  getProductById: async (productId: number): Promise<Product> => {
+  getProductById: async (productId: string): Promise<Product> => {
     const response = await httpClient.get(`${BASE_PATH}/${productId}`);
     return response.data;
   },
-  createProduct: async (product: Product): Promise<Product> => {
-    const response = await httpClient.post(BASE_PATH, product);
+  createProduct: async (
+    ownerId: string,
+    name: string,
+    price: number,
+    description?: string
+  ): Promise<Product> => {
+    const response = await httpClient.post(BASE_PATH, {
+      name,
+      ownerId,
+      price,
+      description,
+    });
     return response.data;
   },
-  deleteProduct: async (productId: number): Promise<void> => {
+  deleteProduct: async (productId: string): Promise<void> => {
     await httpClient.delete(`${BASE_PATH}/${productId}`);
   },
   updateProduct: async (product: Product): Promise<Product> => {

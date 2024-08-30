@@ -1,7 +1,7 @@
 import Address from "./Address";
 
 export default interface User {
-  id: number;
+  id: string;
   firstName: string;
   lastName: string;
   email: string;

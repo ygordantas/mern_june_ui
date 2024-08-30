@@ -7,14 +7,13 @@ import FormInput from "../../components/FormInput/FormInput";
 import ImageUpload from "../../components/ImageUpload/ImageUpload";
 import PageTitle from "../../components/PageTitle/PageTitle";
 import { UserContext } from "../../contexts/userContext";
-import Product from "../../models/Product";
 import classes from "./ProductFormPage.module.css";
 import productsService from "../../services/productsService";
 import ErrorMessageAlert from "../../components/ErrorMessageAlert/ErrorMessageAlert";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 
 export default function ProductFormPage() {
-  const { user } = useContext(UserContext);
+  const { userId } = useContext(UserContext);
   const { productId } = useParams();
   const navigate = useNavigate();
 
@@ -33,7 +32,7 @@ export default function ProductFormPage() {
         setIsLoading(true);
 
         const { name, price, description } =
-          await productsService.getProductById(Number(productId));
+          await productsService.getProductById(productId!);
 
         setName(name);
         setPrice(price.toString());
@@ -50,7 +49,7 @@ export default function ProductFormPage() {
     }
   }, [productId]);
 
-  const onSubmitHandler = (event: React.FormEvent<HTMLFormElement>) => {
+  const onSubmitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
     const form = event.currentTarget;
     event.preventDefault();
     event.stopPropagation();
@@ -60,21 +59,21 @@ export default function ProductFormPage() {
       return;
     }
 
-    const newProduct: Product = {
-      id: 0,
-      name,
-      price: Number(price),
-      ownerEmail: user!.email,
-      ownerId: user!.id,
-      postedAt: new Date(),
-      description,
-      images:
-        images.length > 0
-          ? images.map((file) => URL.createObjectURL(file))
-          : ["https://placehold.co/600x400"],
-    };
+    try {
+      setIsLoading(true);
 
-    navigate(`/products/${newProduct.id}`);
+      const newProduct = await productsService.createProduct(
+        userId!,
+        name,
+        Number(price),
+        description
+      );
+      navigate(`/products/${newProduct.id}`);
+    } catch (error) {
+      setHasError(true);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const submitBtnContent = productId ? (
