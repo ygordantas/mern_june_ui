@@ -12,17 +12,9 @@ const productsService = {
     const response = await httpClient.get(`${BASE_PATH}/${productId}`);
     return response.data;
   },
-  createProduct: async (
-    ownerId: string,
-    name: string,
-    price: number,
-    description?: string
-  ): Promise<Product> => {
-    const response = await httpClient.post(BASE_PATH, {
-      name,
-      ownerId,
-      price,
-      description,
+  createProduct: async (formData: FormData): Promise<Product> => {
+    const response = await httpClient.post(BASE_PATH, formData, {
+      headers: { "Content-Type": "multipart/form-data" },
     });
     return response.data;
   },

@@ -24,7 +24,7 @@ export default function ProductFormPage() {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
-  const [images, setImages] = useState<File[]>([]);
+  const [imageFiles, setImagesFiles] = useState<File[]>([]);
 
   useEffect(() => {
     const getProduct = async () => {
@@ -62,6 +62,16 @@ export default function ProductFormPage() {
     try {
       setIsLoading(true);
 
+      const formData = new FormData();
+
+      formData.append("name", name);
+      formData.append("price", price);
+      formData.append("description", description);
+
+      if (imageFiles.length > 0) {
+        imageFiles.forEach((imgFile) => formData.append("images", imgFile));
+      }
+
       if (productId) {
         await productsService.updateProduct(
           productId,
@@ -72,12 +82,9 @@ export default function ProductFormPage() {
 
         navigate(`/products/${productId}`);
       } else {
-        const newProduct = await productsService.createProduct(
-          userId!,
-          name,
-          Number(price),
-          description
-        );
+        formData.append("ownerId", userId!);
+
+        const newProduct = await productsService.createProduct(formData);
         navigate(`/products/${newProduct.id}`);
       }
     } catch (error) {
@@ -147,9 +154,9 @@ export default function ProductFormPage() {
       </Row>
       <Row className="mt-3">
         <ImageUpload
-          onChange={(files) => setImages(files)}
+          onChange={(files) => setImagesFiles(files)}
           onImageDelete={(i) =>
-            setImages((prev) => {
+            setImagesFiles((prev) => {
               const newImages = [...prev];
               newImages.splice(i, 1);
               return newImages;
