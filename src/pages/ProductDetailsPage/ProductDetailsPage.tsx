@@ -39,15 +39,20 @@ export default function ProductDetailsPage() {
   ) : (
     <>
       <PageTitle title={product.name} />
-      <Row>
-        <Carousel slide={false}>
-          {product.images?.map((imageUrl, i) => (
-            <Carousel.Item key={i} style={{ textAlign: "center" }}>
-              <Image className={classes.image} src={imageUrl} rounded />
-            </Carousel.Item>
-          ))}
-        </Carousel>
-      </Row>
+      {product.images.length > 0 && (
+        <Row>
+          <Carousel slide={false}>
+            {product.images?.map((imageUrl, i) => {
+              imageUrl = import.meta.env.VITE_API_URL + imageUrl;
+              return (
+                <Carousel.Item key={i} style={{ textAlign: "center" }}>
+                  <Image className={classes.image} src={imageUrl} rounded />
+                </Carousel.Item>
+              );
+            })}
+          </Carousel>
+        </Row>
+      )}
       <Row className={classes.details_section + " mt-5 mb-5"}>
         <h5>Price: ${product.price}</h5>
         <hr />
