@@ -42,14 +42,15 @@ export default function ProductDetailsPage() {
       {product.images.length > 0 && (
         <Row>
           <Carousel slide={false}>
-            {product.images?.map((imageUrl, i) => {
-              imageUrl = import.meta.env.VITE_API_URL + imageUrl;
-              return (
-                <Carousel.Item key={i} style={{ textAlign: "center" }}>
-                  <Image className={classes.image} src={imageUrl} rounded />
-                </Carousel.Item>
-              );
-            })}
+            {product.images?.map((imageUrl, i) => (
+              <Carousel.Item key={i} style={{ textAlign: "center" }}>
+                <Image
+                  className={classes.image}
+                  src={import.meta.env.VITE_API_URL + imageUrl}
+                  rounded
+                />
+              </Carousel.Item>
+            ))}
           </Carousel>
         </Row>
       )}
