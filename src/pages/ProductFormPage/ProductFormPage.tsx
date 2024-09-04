@@ -62,13 +62,24 @@ export default function ProductFormPage() {
     try {
       setIsLoading(true);
 
-      const newProduct = await productsService.createProduct(
-        userId!,
-        name,
-        Number(price),
-        description
-      );
-      navigate(`/products/${newProduct.id}`);
+      if (productId) {
+        await productsService.updateProduct(
+          productId,
+          name,
+          Number(price),
+          description
+        );
+
+        navigate(`/products/${productId}`);
+      } else {
+        const newProduct = await productsService.createProduct(
+          userId!,
+          name,
+          Number(price),
+          description
+        );
+        navigate(`/products/${newProduct.id}`);
+      }
     } catch (error) {
       setHasError(true);
     } finally {

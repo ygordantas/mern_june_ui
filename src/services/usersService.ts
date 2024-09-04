@@ -5,7 +5,7 @@ import CreateUserRequest from "../models/requests/CreateUserRequest";
 const BASE_PATH = "/users";
 
 const usersService = {
-  getUserProducts: async (userId: number): Promise<Product[]> => {
+  getUserProducts: async (userId: string): Promise<Product[]> => {
     const response = await httpClient.get(`${BASE_PATH}/${userId}/products`);
     return response.data;
   },

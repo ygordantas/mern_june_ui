@@ -12,9 +12,6 @@ import { AxiosError } from "axios";
 
 export default function ProductDetailsPage() {
   const { productId } = useParams();
-
-  console.log(productId)
-
   const [product, setProduct] = useState<Product>({} as Product);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<AppError | undefined>();

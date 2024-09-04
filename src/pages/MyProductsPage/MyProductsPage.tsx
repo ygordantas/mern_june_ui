@@ -12,7 +12,7 @@ import usersService from "../../services/usersService";
 import ErrorMessageAlert from "../../components/ErrorMessageAlert/ErrorMessageAlert";
 
 export default function MyProductsPage() {
-  const { userId: user } = useContext(UserContext);
+  const { userId } = useContext(UserContext);
   const navigate = useNavigate();
 
   const [myProducts, setMyProducts] = useState<Product[]>([]);
@@ -22,7 +22,7 @@ export default function MyProductsPage() {
   useEffect(() => {
     const getUsersProducts = async () => {
       try {
-        const products = await usersService.getUserProducts(user!.id);
+        const products = await usersService.getUserProducts(userId!);
         setMyProducts(products);
       } catch (error) {
         setHasError(true);
@@ -32,9 +32,9 @@ export default function MyProductsPage() {
     };
 
     getUsersProducts();
-  }, [user]);
+  }, [userId]);
 
-  const onDeleteProductClickHandler = async (productId: number) => {
+  const onDeleteProductClickHandler = async (productId: string) => {
     try {
       setIsLoading(true);
       await productsService.deleteProduct(productId);

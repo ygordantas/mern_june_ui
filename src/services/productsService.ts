@@ -29,18 +29,19 @@ const productsService = {
   deleteProduct: async (productId: string): Promise<void> => {
     await httpClient.delete(`${BASE_PATH}/${productId}`);
   },
-  updateProduct: async (product: Product): Promise<Product> => {
-    const response = await httpClient.put(
-      `${BASE_PATH}/${product.id}`,
-      product
-    );
+  updateProduct: async (
+    productId: string,
+    name: string,
+    price: number,
+    description?: string
+  ): Promise<Product> => {
+    const response = await httpClient.put(`${BASE_PATH}/${productId}`, {
+      name,
+      price,
+      description,
+    });
     return response.data;
   },
 };
 
 export default productsService;
-
-// Promise chaining
-// function getAllProducts(): Promise<Product[]> {
-//   return httpClient.get(BASE_PATH).then((response) => response.data).catch(err => console.log(err));
-// }

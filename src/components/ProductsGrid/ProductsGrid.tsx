@@ -13,7 +13,6 @@ export default function ProductsGrid({
   products,
   itemsPerRow = 3,
 }: ProductsGridProps) {
-  console.log(products);
   const totalRowsCount = Math.ceil(products.length / itemsPerRow);
 
   const createGrid = useCallback((): JSX.Element[] => {
