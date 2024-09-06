@@ -14,3 +14,29 @@
 .submit_btn span {
   margin-left: 15px;
 }
+
+.image_gallery {
+  justify-content: center;
+}
+
+.image_container button {
+  position: relative;
+  top: -80px;
+  left: -40px;
+  padding: 5px;
+}
+
+.image_container img {
+  height: 200px;
+  width: 200px;
+  margin: 10px;
+  padding: 0px;
+  border-radius: 10px;
+}
+
+@media only screen and (min-width: 545px) and (max-width: 768px) {
+  .image_container button {
+    top: -210px;
+    left: 180px;
+  }
+}

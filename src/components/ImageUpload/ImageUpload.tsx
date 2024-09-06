@@ -6,11 +6,13 @@ import classes from "./ImageUpload.module.css";
 interface ImageUploadProps {
   onChange: (files: File[]) => void;
   onImageDelete: (index: number) => void;
+  labelText?: string;
 }
 
 export default function ImageUpload({
   onChange,
   onImageDelete,
+  labelText = "Select Images",
 }: ImageUploadProps): JSX.Element {
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -44,7 +46,7 @@ export default function ImageUpload({
   return (
     <div>
       <Form.Group controlId="formFileMultiple" className="mb-3">
-        <Form.Label>Select Images</Form.Label>
+        <Form.Label>{labelText}</Form.Label>
         <Form.Control
           onChange={onChangeHandler}
           type="file"

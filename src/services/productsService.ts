@@ -21,17 +21,25 @@ const productsService = {
   deleteProduct: async (productId: string): Promise<void> => {
     await httpClient.delete(`${BASE_PATH}/${productId}`);
   },
+  deleteProductImage: async (
+    productId: string,
+    imagePath: string
+  ): Promise<void> => {
+    const splitted = imagePath.split("/");
+    const fileName = splitted.pop();
+    await httpClient.delete(`${BASE_PATH}/${productId}/images/${fileName}`);
+  },
   updateProduct: async (
     productId: string,
-    name: string,
-    price: number,
-    description?: string
+    formData: FormData
   ): Promise<Product> => {
-    const response = await httpClient.put(`${BASE_PATH}/${productId}`, {
-      name,
-      price,
-      description,
-    });
+    const response = await httpClient.put(
+      `${BASE_PATH}/${productId}`,
+      formData,
+      {
+        headers: { "Content-Type": "multipart/form-data" },
+      }
+    );
     return response.data;
   },
 };

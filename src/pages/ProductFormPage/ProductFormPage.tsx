@@ -11,6 +11,7 @@ import classes from "./ProductFormPage.module.css";
 import productsService from "../../services/productsService";
 import ErrorMessageAlert from "../../components/ErrorMessageAlert/ErrorMessageAlert";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
+import { MdDelete } from "react-icons/md";
 
 export default function ProductFormPage() {
   const { userId } = useContext(UserContext);
@@ -25,18 +26,22 @@ export default function ProductFormPage() {
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
   const [imageFiles, setImagesFiles] = useState<File[]>([]);
+  const [imagesPaths, setImagesPaths] = useState<string[]>([]);
 
   useEffect(() => {
     const getProduct = async () => {
       try {
         setIsLoading(true);
 
-        const { name, price, description } =
+        const { name, price, description, images } =
           await productsService.getProductById(productId!);
 
         setName(name);
         setPrice(price.toString());
         setDescription(description ?? "");
+        setImagesPaths(
+          images.map((imagePath) => import.meta.env.VITE_API_URL + imagePath)
+        );
       } catch (error) {
         setHasError(true);
       } finally {
@@ -73,12 +78,7 @@ export default function ProductFormPage() {
       }
 
       if (productId) {
-        await productsService.updateProduct(
-          productId,
-          name,
-          Number(price),
-          description
-        );
+        await productsService.updateProduct(productId, formData);
 
         navigate(`/products/${productId}`);
       } else {
@@ -92,6 +92,28 @@ export default function ProductFormPage() {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const onDeleteImagePathClickHandler = async (imagePath: string) => {
+    if (productId && imagePath) {
+      try {
+        setIsLoading(true);
+        await productsService.deleteProductImage(productId, imagePath);
+        setImagesPaths((prev) => prev.filter((x) => x != imagePath));
+      } catch (error) {
+        setHasError(true);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+  };
+
+  const onDeleteImageFileClickHandler = (fileIndex: number) => {
+    setImagesFiles((prev) => {
+      const newImages = [...prev];
+      newImages.splice(fileIndex, 1);
+      return newImages;
+    });
   };
 
   const submitBtnContent = productId ? (
@@ -152,16 +174,28 @@ export default function ProductFormPage() {
           onChange={(e) => setDescription(e.target.value)}
         />
       </Row>
+      {productId && (
+        <Row className={classes.image_gallery + " mt-3"}>
+          {imagesPaths.map((path) => (
+            <Col className={classes.image_container}>
+              <img src={path} />
+              <Button
+                onClick={async () => await onDeleteImagePathClickHandler(path)}
+                type="button"
+                variant="danger"
+                size="sm"
+              >
+                <MdDelete size={20} />
+              </Button>
+            </Col>
+          ))}
+        </Row>
+      )}
       <Row className="mt-3">
         <ImageUpload
+          labelText={productId && "Add new images to your product"}
           onChange={(files) => setImagesFiles(files)}
-          onImageDelete={(i) =>
-            setImagesFiles((prev) => {
-              const newImages = [...prev];
-              newImages.splice(i, 1);
-              return newImages;
-            })
-          }
+          onImageDelete={onDeleteImageFileClickHandler}
         />
       </Row>
     </Form>
