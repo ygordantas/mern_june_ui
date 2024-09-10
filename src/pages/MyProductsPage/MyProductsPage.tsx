@@ -6,13 +6,13 @@ import PageTitle from "../../components/PageTitle/PageTitle";
 import { UserContext } from "../../contexts/userContext";
 import Product from "../../models/Product";
 import classes from "./MyProductsPage.module.css";
-import productsService from "../../services/productsService";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
-import usersService from "../../services/usersService";
 import ErrorMessageAlert from "../../components/ErrorMessageAlert/ErrorMessageAlert";
+import useProductService from "../../services/productsService";
 
 export default function MyProductsPage() {
   const { userId } = useContext(UserContext);
+  const { deleteProduct, getUserProducts } = useProductService();
   const navigate = useNavigate();
 
   const [myProducts, setMyProducts] = useState<Product[]>([]);
@@ -22,7 +22,7 @@ export default function MyProductsPage() {
   useEffect(() => {
     const getUsersProducts = async () => {
       try {
-        const products = await usersService.getUserProducts(userId!);
+        const products = await getUserProducts(userId!);
         setMyProducts(products);
       } catch (error) {
         setHasError(true);
@@ -37,7 +37,7 @@ export default function MyProductsPage() {
   const onDeleteProductClickHandler = async (productId: string) => {
     try {
       setIsLoading(true);
-      await productsService.deleteProduct(productId);
+      await deleteProduct(productId);
 
       setMyProducts((prev) => {
         return prev.filter((product) => product.id !== productId);

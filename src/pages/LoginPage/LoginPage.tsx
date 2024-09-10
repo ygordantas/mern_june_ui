@@ -11,7 +11,7 @@ import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import ErrorMessageAlert from "../../components/ErrorMessageAlert/ErrorMessageAlert";
 
 export default function LoginPage() {
-  const { setUserId } = useContext(UserContext);
+  const { setUserId, setToken } = useContext(UserContext);
 
   const navigate = useNavigate();
 
@@ -34,9 +34,12 @@ export default function LoginPage() {
     try {
       setIsLoading(true);
 
-      const userId = await usersService.login(email, password);
+      const response = await usersService.login(email, password);
 
-      setUserId(userId);
+      console.log(response);
+
+      setUserId(response.id);
+      setToken(response.token);
 
       navigate("/");
     } catch (error) {

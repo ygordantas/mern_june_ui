@@ -7,13 +7,14 @@ import PageTitle from "../../components/PageTitle/PageTitle";
 import ProductsGrid from "../../components/ProductsGrid/ProductsGrid";
 import Product from "../../models/Product";
 import classes from "./ProductsPage.module.css";
-import productsService from "../../services/productsService";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import ErrorMessageAlert from "../../components/ErrorMessageAlert/ErrorMessageAlert";
+import useProductService from "../../services/productsService";
 
 const PRODUCTS_PER_PAGE = 9;
 
 export default function ProductsPage() {
+  const { getAllProducts } = useProductService();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [products, setProducts] = useState<Product[]>([]);
   const [activePage, setActivePage] = useState<number>(1);
@@ -37,7 +38,7 @@ export default function ProductsPage() {
   useEffect(() => {
     const getProducts = async () => {
       try {
-        const response = await productsService.getAllProducts();
+        const response = await getAllProducts();
         setProducts(response);
       } catch (error) {
         setHasError(true);
@@ -49,7 +50,7 @@ export default function ProductsPage() {
     };
 
     getProducts();
-  }, []);
+  }, [getAllProducts]);
 
   const pageContent = (
     <>
