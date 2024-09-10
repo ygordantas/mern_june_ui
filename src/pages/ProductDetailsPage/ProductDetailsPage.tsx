@@ -4,14 +4,16 @@ import { useParams } from "react-router-dom";
 import PageTitle from "../../components/PageTitle/PageTitle";
 import Product from "../../models/Product";
 import classes from "./ProductDetailsPage.module.css";
-import productsService from "../../services/productsService";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import ErrorMessageAlert from "../../components/ErrorMessageAlert/ErrorMessageAlert";
 import AppError from "../../models/AppError";
 import { AxiosError } from "axios";
+import useProductService from "../../services/productsService";
 
 export default function ProductDetailsPage() {
   const { productId } = useParams();
+  const { getProductById } = useProductService();
+
   const [product, setProduct] = useState<Product>({} as Product);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<AppError | undefined>();
@@ -19,7 +21,7 @@ export default function ProductDetailsPage() {
   useEffect(() => {
     const getProduct = async () => {
       try {
-        const product = await productsService.getProductById(productId!);
+        const product = await getProductById(productId!);
         setProduct(product);
       } catch (error) {
         const e = error as AxiosError;
@@ -32,7 +34,7 @@ export default function ProductDetailsPage() {
     if (productId) {
       getProduct();
     }
-  }, [productId]);
+  }, [getProductById, productId]);
 
   const pageContent = isLoading ? (
     <LoadingSpinner />

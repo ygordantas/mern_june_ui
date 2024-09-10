@@ -8,14 +8,16 @@ import ImageUpload from "../../components/ImageUpload/ImageUpload";
 import PageTitle from "../../components/PageTitle/PageTitle";
 import { UserContext } from "../../contexts/userContext";
 import classes from "./ProductFormPage.module.css";
-import productsService from "../../services/productsService";
 import ErrorMessageAlert from "../../components/ErrorMessageAlert/ErrorMessageAlert";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import { MdDelete } from "react-icons/md";
+import useProductService from "../../services/productsService";
 
 export default function ProductFormPage() {
   const { userId } = useContext(UserContext);
   const { productId } = useParams();
+  const { getProductById, updateProduct, createProduct, deleteProductImage } =
+    useProductService();
   const navigate = useNavigate();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -33,8 +35,9 @@ export default function ProductFormPage() {
       try {
         setIsLoading(true);
 
-        const { name, price, description, images } =
-          await productsService.getProductById(productId!);
+        const { name, price, description, images } = await getProductById(
+          productId!
+        );
 
         setName(name);
         setPrice(price.toString());
@@ -78,13 +81,13 @@ export default function ProductFormPage() {
       }
 
       if (productId) {
-        await productsService.updateProduct(productId, formData);
+        await updateProduct(productId, formData);
 
         navigate(`/products/${productId}`);
       } else {
         formData.append("ownerId", userId!);
 
-        const newProduct = await productsService.createProduct(formData);
+        const newProduct = await createProduct(formData);
         navigate(`/products/${newProduct.id}`);
       }
     } catch (error) {
@@ -98,7 +101,7 @@ export default function ProductFormPage() {
     if (productId && imagePath) {
       try {
         setIsLoading(true);
-        await productsService.deleteProductImage(productId, imagePath);
+        await deleteProductImage(productId, imagePath);
         setImagesPaths((prev) => prev.filter((x) => x != imagePath));
       } catch (error) {
         setHasError(true);
