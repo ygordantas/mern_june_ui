@@ -2,7 +2,6 @@ import { useContext } from "react";
 import { Container, Form, Nav, Navbar } from "react-bootstrap";
 import { IoLogOut } from "react-icons/io5";
 import { RiAuctionFill } from "react-icons/ri";
-import { TbMessages } from "react-icons/tb";
 import { Link, Navigate, NavLink, Outlet, useNavigate } from "react-router-dom";
 import { ColorThemeContext } from "../../contexts/colorThemeContext";
 import { UserContext } from "../../contexts/userContext";
@@ -10,15 +9,15 @@ import classes from "./Layout.module.css";
 
 export default function Layout() {
   const navigate = useNavigate();
-  const { userId: user, setUserId: setUser } = useContext(UserContext);
+  const { token, setToken } = useContext(UserContext);
   const { theme, setTheme } = useContext(ColorThemeContext);
 
   const onLogoutClickHandler = () => {
-    setUser(undefined);
+    setToken(undefined);
     navigate("/account/login");
   };
 
-  return user ? (
+  return token ? (
     <div className={classes.page_container}>
       <Navbar expand="lg" className={classes.navbar}>
         <Container fluid>
@@ -42,9 +41,6 @@ export default function Layout() {
               <NavLink to="/myProducts">
                 <RiAuctionFill />
                 My Products
-              </NavLink>
-              <NavLink to="/messages">
-                <TbMessages /> Messages
               </NavLink>
             </Nav>
             <Nav className={classes.nav_item_container}>

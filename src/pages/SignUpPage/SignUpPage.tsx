@@ -14,7 +14,7 @@ import ErrorMessageAlert from "../../components/ErrorMessageAlert/ErrorMessageAl
 
 const SignUpPage = (): JSX.Element => {
   const navigate = useNavigate();
-  const { setUserId } = useContext(UserContext);
+  const { setUserId, setToken } = useContext(UserContext);
 
   const [validated, setValidated] = useState(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -52,8 +52,8 @@ const SignUpPage = (): JSX.Element => {
     }
 
     try {
-      const newUserId = await usersService.signUp({
-        id: 0,
+      const authResponse = await usersService.signUp({
+        id: "",
         firstName,
         lastName,
         email,
@@ -62,7 +62,10 @@ const SignUpPage = (): JSX.Element => {
         password,
         repeatPassword: confirmPassword,
       });
-      setUserId(newUserId);
+
+      setUserId(authResponse.id);
+      setToken(authResponse.token);
+
       navigate("/");
     } catch (error) {
       const e = error as AxiosError;

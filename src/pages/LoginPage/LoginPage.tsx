@@ -11,7 +11,7 @@ import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import ErrorMessageAlert from "../../components/ErrorMessageAlert/ErrorMessageAlert";
 
 export default function LoginPage() {
-  const { setUserId } = useContext(UserContext);
+  const { setUserId, setToken } = useContext(UserContext);
 
   const navigate = useNavigate();
 
@@ -34,10 +34,11 @@ export default function LoginPage() {
     try {
       setIsLoading(true);
 
-      const userId = await usersService.login(email, password);
+      const authResponse = await usersService.login(email, password);
 
-      setUserId(userId);
-
+      setUserId(authResponse.id);
+      setToken(authResponse.token);
+      
       navigate("/");
     } catch (error) {
       const err = error as AxiosError;
